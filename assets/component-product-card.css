@@ -156,12 +156,6 @@
 }
 .product-card__title:hover { color: var(--color-accent); }
 
-.product-card__rating {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-}
-
 .product-card__swatches {
   display: flex;
   gap: 0.375rem;

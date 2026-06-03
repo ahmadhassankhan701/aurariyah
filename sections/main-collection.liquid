@@ -52,15 +52,10 @@
       <p class="text-muted">{{ 'sections.collection.products_count' | t: count: collection.products_count }}</p>
       <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
         <button type="button" class="btn btn--secondary btn--sm" data-filters-open style="display:none">{{ 'sections.collection.filters' | t }}</button>
-        <div style="display:flex;gap:0.25rem">
+        <div class="collection-view-toggle">
           <button type="button" class="header-icon-btn is-active" data-view-grid aria-label="{{ 'sections.collection.grid_view' | t }}">{% render 'icon', icon: 'grid', size: 18 %}</button>
-          <button type="button" class="header-icon-btn" data-view-list aria-label="{{ 'sections.collection.list_view' | t }}">☰</button>
+          <button type="button" class="header-icon-btn" data-view-list aria-label="{{ 'sections.collection.list_view' | t }}">{% render 'icon', icon: 'menu', size: 18 %}</button>
         </div>
-        <select id="SortBy" class="btn btn--secondary btn--sm" style="appearance:auto;padding-right:2rem" onchange="window.location.href=this.value">
-          {%- for option in collection.sort_options -%}
-            <option value="{{ collection.url }}?sort_by={{ option.value }}" {% if collection.sort_by == option.value %}selected{% endif %}>{{ option.name }}</option>
-          {%- endfor -%}
-        </select>
       </div>
     </div>
 
@@ -86,15 +81,6 @@
     {%- endpaginate -%}
   </div>
 </div>
-
-<style>
-  @media (max-width: 1024px) {
-    [data-filters-open] { display: inline-flex !important; }
-    .collection-filters [data-filters-close] { display: flex !important; }
-  }
-  .collection-products--list .product-card { flex-direction: row; }
-  .collection-products--list .product-card__media { width: 200px; flex-shrink: 0; }
-</style>
 
 {% schema %}
 {

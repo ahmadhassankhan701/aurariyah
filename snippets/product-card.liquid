@@ -8,8 +8,6 @@
   if card_product.compare_at_price > card_product.price
     assign on_sale = true
   endif
-  assign rating_value = card_product.metafields.reviews.rating.value | default: 4.5 | plus: 0
-  assign rating_count = card_product.metafields.reviews.rating_count | default: 0
   assign placeholder_idx = card_product.id | modulo: 4 | plus: 1
   assign placeholder_name = 'product-apparel-' | append: placeholder_idx
 
@@ -96,15 +94,6 @@
     <h3 class="product-card__title">
       <a href="{{ card_product.url }}">{{ card_product.title }}</a>
     </h3>
-
-    <div class="product-card__rating rating" aria-label="{{ rating_value }} out of 5">
-      {%- for i in (1..5) -%}
-        <span class="rating__star" aria-hidden="true">{% if i <= rating_value %}{% render 'icon', icon: 'star', size: 14 %}{% endif %}</span>
-      {%- endfor -%}
-      {%- if rating_count > 0 -%}
-        <span class="text-muted">({{ rating_count }})</span>
-      {%- endif -%}
-    </div>
 
     {%- assign color_option = card_product.options_by_name['Color'] | default: card_product.options_by_name['Colour'] -%}
     {%- if color_option and color_option.values.size > 0 -%}
