@@ -65,6 +65,20 @@
       },
       "category-tiles": {
         "type": "category-tiles",
+        "blocks": {
+          "tile_HA9QNa": {
+            "type": "tile",
+            "settings": {
+              "eyebrow": "Audio",
+              "title": "Headphones",
+              "link": "shopify://collections/headphones",
+              "image": "shopify://shop_images/headphones.png"
+            }
+          }
+        },
+        "block_order": [
+          "tile_HA9QNa"
+        ],
         "settings": {
           "title": "Shop by Category"
         }
@@ -74,7 +88,7 @@
         "settings": {
           "eyebrow": "Curated",
           "title": "Bestsellers",
-          "collection": "",
+          "collection": "headphones",
           "products_to_show": 8,
           "show_view_all": true,
           "view_all_label": ""
@@ -95,7 +109,7 @@
         "settings": {
           "eyebrow": "New Arrivals",
           "title": "Just Landed",
-          "collection": "",
+          "collection": "headphones",
           "products_to_show": 4,
           "show_view_all": true,
           "view_all_label": ""
@@ -104,11 +118,12 @@
       "image-with-text": {
         "type": "image-with-text",
         "settings": {
+          "image": "shopify://shop_images/onur-binay-9jLI9Ux6IFo-unsplash.jpg",
           "eyebrow": "Our Story",
-          "heading": "Engineered for the Gulf",
-          "text": "",
-          "button_label": "",
-          "button_link": ""
+          "heading": "Smarter Living, Simplified.",
+          "text": "<p>We are Aura Riyah, your go-to destination for the latest, most innovative tech gadgets on the market. We source high-quality, game-changing devices that fit perfectly into your modern lifestyle.</p>",
+          "button_label": "Shop Now",
+          "button_link": "shopify://collections"
         }
       }
     },
