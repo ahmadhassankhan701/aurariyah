@@ -30,16 +30,18 @@
   "name": "Category tiles",
   "tag": "section",
   "class": "section-category-tiles",
-  "settings": [{ "type": "text", "id": "title", "default": "Shop by Category" }],
+  "settings": [
+    { "type": "text", "id": "title", "label": "Section heading", "default": "Shop by Category" }
+  ],
   "blocks": [
     {
       "type": "tile",
       "name": "Category",
       "settings": [
-        { "type": "text", "id": "eyebrow", "default": "Audio" },
-        { "type": "text", "id": "title", "default": "Headphones" },
-        { "type": "url", "id": "link" },
-        { "type": "image_picker", "id": "image" }
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Audio" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Headphones" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "image_picker", "id": "image", "label": "Image" }
       ]
     }
   ],
