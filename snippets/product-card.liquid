@@ -46,7 +46,7 @@
           -{{ card_product.compare_at_price | minus: card_product.price | times: 100 | divided_by: card_product.compare_at_price }}%
         </span>
       {%- endif -%}
-      {%- unless card_product.available -%}
+      {%- if card_product.available == false -%}
         <span class="badge badge--stock">{{ 'products.product.sold_out' | t }}</span>
       {%- elsif current_variant.inventory_management == 'shopify' and current_variant.inventory_quantity > 0 and current_variant.inventory_quantity < 5 -%}
         <span class="badge badge--stock">{{ 'products.product.low_stock' | t: count: current_variant.inventory_quantity }}</span>
