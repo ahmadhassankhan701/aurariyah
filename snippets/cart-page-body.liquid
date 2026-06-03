@@ -1,0 +1,41 @@
+{%- assign threshold = settings.free_shipping_threshold | times: 100 -%}
+
+{%- if cart.item_count > 0 -%}
+  <div class="cart-page__shipping cart-drawer__shipping-bar" data-cart-shipping-bar>
+    {%- if cart.total_price >= threshold -%}
+      <p class="cart-drawer__shipping-text">{{ 'sections.cart.free_shipping_qualified' | t }}</p>
+    {%- else -%}
+      {%- assign remaining = threshold | minus: cart.total_price -%}
+      <p class="cart-drawer__shipping-text">{{ 'sections.cart.free_shipping_remaining' | t: amount: remaining | money }}</p>
+    {%- endif -%}
+    <div class="cart-drawer__progress">
+      {%- assign progress = cart.total_price | times: 100 | divided_by: threshold | at_most: 100 -%}
+      <div class="cart-drawer__progress-fill" style="width: {{ progress }}%"></div>
+    </div>
+  </div>
+
+  <div class="cart-page__items" data-cart-items>
+    {%- for item in cart.items -%}
+      {% render 'cart-line-item', item: item, line_index: forloop.index %}
+    {%- endfor -%}
+  </div>
+
+  <div class="cart-page__footer" data-cart-footer>
+    <div class="cart-drawer__subtotal cart-page__subtotal">
+      <span>{{ 'sections.cart.subtotal' | t }}</span>
+      <span data-cart-subtotal>{{ cart.total_price | money }}</span>
+    </div>
+    <a href="{{ routes.all_products_collection_url }}" class="btn btn--secondary btn--full cart-page__continue">{{ 'sections.cart.continue_shopping' | t }}</a>
+    <form action="{{ routes.cart_url }}" method="post" class="cart-page__checkout-form">
+      <button type="submit" name="checkout" class="btn btn--primary btn--full btn--lg">{{ 'sections.cart.checkout' | t }}</button>
+    </form>
+    {{ content_for_additional_checkout_buttons }}
+  </div>
+{%- else -%}
+  <div class="cart-drawer__empty cart-page__empty">
+    {% render 'icon', icon: 'cart', size: 64 %}
+    <h2>{{ 'sections.cart.empty' | t }}</h2>
+    <p class="text-muted">{{ 'sections.cart.empty_subtitle' | t }}</p>
+    <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">{{ 'sections.cart.continue_shopping' | t }}</a>
+  </div>
+{%- endif -%}

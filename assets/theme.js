@@ -124,6 +124,7 @@
   function initCart() {
     $$('[data-cart-open]').forEach((btn) => btn.addEventListener('click', openCart));
     $$('[data-cart-close]').forEach((btn) => btn.addEventListener('click', closeCart));
+    initCartLineItems();
 
     document.addEventListener('click', async (e) => {
       const addBtn = e.target.closest('[data-add-to-cart]');
@@ -141,10 +142,8 @@
           body: JSON.stringify({ items: [{ id: variantId, quantity }] })
         });
         if (!res.ok) throw new Error();
-        const cart = await fetch('/cart.js').then((r) => r.json());
-        updateCartCount(cart.item_count);
+        await refreshCartUI();
         openCart();
-        document.dispatchEvent(new CustomEvent('cart:updated', { detail: cart }));
       } catch {
         alert(window.cartStrings?.error || 'Error');
       } finally {
@@ -157,6 +156,110 @@
     $$('[data-cart-count]').forEach((el) => {
       el.textContent = count;
       el.hidden = count === 0;
+    });
+  }
+
+  function parseSectionHtml(sectionHtml, selector) {
+    const doc = new DOMParser().parseFromString(sectionHtml, 'text/html');
+    return doc.querySelector(selector) || doc.querySelector('.shopify-section') || doc.body;
+  }
+
+  async function refreshCartUI() {
+    const sections = ['cart-drawer-items'];
+    if ($('[data-cart-page]')) sections.push('cart-page-items');
+
+    try {
+      const res = await fetch(`${window.routes.cart_url}?sections=${sections.join(',')}`);
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+
+      const drawerRefresh = $('[data-cart-drawer-refresh]');
+      if (drawerRefresh && data['cart-drawer-items']) {
+        const node = parseSectionHtml(data['cart-drawer-items'], '[data-cart-drawer-refresh]');
+        if (node) drawerRefresh.innerHTML = node.innerHTML;
+      }
+
+      const pageRefresh = $('[data-cart-page-refresh]');
+      if (pageRefresh && data['cart-page-items']) {
+        const node = parseSectionHtml(data['cart-page-items'], '[data-cart-page-refresh]');
+        if (node) pageRefresh.innerHTML = node.innerHTML;
+      }
+
+      const cart = await fetch('/cart.js').then((r) => r.json());
+      updateCartCount(cart.item_count);
+      if (cart.currency) window.currency = cart.currency;
+      document.dispatchEvent(new CustomEvent('cart:updated', { detail: cart }));
+      return cart;
+    } catch {
+      return null;
+    }
+  }
+
+  async function changeCartLine(line, quantity) {
+    const lineEl = $(`[data-cart-line="${line}"]`);
+    lineEl?.classList.add('is-updating');
+
+    try {
+      const res = await fetch(`${window.routes.cart_change_url}.js`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ line, quantity: Math.max(0, quantity) })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        const msg = data.description || data.message || window.cartStrings?.error;
+        alert(msg);
+        return null;
+      }
+      await refreshCartUI();
+      return data;
+    } catch {
+      alert(window.cartStrings?.error || 'Error');
+      return null;
+    } finally {
+      lineEl?.classList.remove('is-updating');
+    }
+  }
+
+  function initCartLineItems() {
+    let qtyDebounce;
+
+    document.addEventListener('click', async (e) => {
+      const removeBtn = e.target.closest('[data-cart-remove]');
+      if (removeBtn) {
+        e.preventDefault();
+        const line = parseInt(removeBtn.dataset.line, 10);
+        if (line) await changeCartLine(line, 0);
+        return;
+      }
+
+      const minus = e.target.closest('[data-cart-qty-minus]');
+      const plus = e.target.closest('[data-cart-qty-plus]');
+      if (!minus && !plus) return;
+
+      e.preventDefault();
+      const btn = minus || plus;
+      const line = parseInt(btn.dataset.line, 10);
+      const lineEl = $(`[data-cart-line="${line}"]`);
+      const input = lineEl?.querySelector('[data-cart-qty-input]');
+      if (!input || !line) return;
+
+      let val = parseInt(input.value, 10) || 1;
+      if (plus) val += 1;
+      if (minus) val = Math.max(0, val - 1);
+      await changeCartLine(line, val);
+    });
+
+    document.addEventListener('change', (e) => {
+      const input = e.target.closest('[data-cart-qty-input]');
+      if (!input) return;
+      clearTimeout(qtyDebounce);
+      qtyDebounce = setTimeout(async () => {
+        const line = parseInt(input.dataset.line, 10);
+        let val = parseInt(input.value, 10);
+        if (Number.isNaN(val) || val < 0) val = 0;
+        await changeCartLine(line, val);
+      }, 400);
     });
   }
 

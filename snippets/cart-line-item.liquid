@@ -1,0 +1,59 @@
+{%- comment -%}
+  Cart line — drawer & cart page
+  Usage: {% render 'cart-line-item', item: item, line_index: forloop.index %}
+{%- endcomment -%}
+<div class="cart-line-item cart-drawer__item" data-cart-line="{{ line_index }}">
+  <a href="{{ item.url }}" class="cart-line-item__media">
+    {%- if item.image -%}
+      <img
+        class="cart-drawer__item-image"
+        src="{{ item.image | image_url: width: 176 }}"
+        alt="{{ item.image.alt | default: item.product.title | escape }}"
+        width="88"
+        height="88"
+        loading="lazy"
+      >
+    {%- endif -%}
+  </a>
+
+  <div class="cart-drawer__item-info">
+    <div class="cart-line-item__header">
+      <p class="cart-drawer__item-title">
+        <a href="{{ item.url }}">{{ item.product.title }}</a>
+      </p>
+      <button
+        type="button"
+        class="cart-line-item__remove"
+        data-cart-remove
+        data-line="{{ line_index }}"
+        aria-label="{{ 'sections.cart.remove' | t }}: {{ item.product.title | escape }}"
+      >
+        {% render 'icon', icon: 'close', size: 16 %}
+        <span class="cart-line-item__remove-text">{{ 'sections.cart.remove' | t }}</span>
+      </button>
+    </div>
+
+    {%- unless item.variant.title == 'Default Title' -%}
+      <p class="cart-drawer__item-variant">{{ item.variant.title }}</p>
+    {%- endunless -%}
+
+    <p class="cart-drawer__item-price" data-cart-line-price>{{ item.final_line_price | money }}</p>
+
+    <div class="cart-drawer__qty" data-cart-qty>
+      <button type="button" data-cart-qty-minus data-line="{{ line_index }}" aria-label="{{ 'sections.cart.quantity' | t }} −">
+        {% render 'icon', icon: 'minus', size: 14 %}
+      </button>
+      <input
+        type="number"
+        value="{{ item.quantity }}"
+        min="0"
+        data-cart-qty-input
+        data-line="{{ line_index }}"
+        aria-label="{{ 'sections.cart.quantity' | t }}"
+      >
+      <button type="button" data-cart-qty-plus data-line="{{ line_index }}" aria-label="{{ 'sections.cart.quantity' | t }} +">
+        {% render 'icon', icon: 'plus', size: 14 %}
+      </button>
+    </div>
+  </div>
+</div>

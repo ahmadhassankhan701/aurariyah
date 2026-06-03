@@ -1,46 +1,17 @@
-<section class="section">
-  <div class="container" style="max-width:720px">
-    <h1 class="h2" style="margin-bottom:var(--space-lg)">{{ 'sections.cart.title' | t }}</h1>
+<section class="section cart-page" data-cart-page>
+  <div class="container cart-page__container">
+    <h1 class="h2 cart-page__title">{{ 'sections.cart.title' | t }}</h1>
 
-    {%- if cart.item_count > 0 -%}
-      {%- assign threshold = settings.free_shipping_threshold | times: 100 -%}
-      <div class="cart-drawer__shipping-bar" style="margin-bottom:var(--space-lg);border-radius:var(--radius-lg)">
-        {%- if cart.total_price >= threshold -%}
-          <p>{{ 'sections.cart.free_shipping_qualified' | t }}</p>
-        {%- else -%}
-          <p>{{ 'sections.cart.free_shipping_remaining' | t: amount: threshold | minus: cart.total_price | money }}</p>
-        {%- endif -%}
-        <div class="cart-drawer__progress"><div class="cart-drawer__progress-fill" style="width:{{ cart.total_price | times: 100 | divided_by: threshold | at_most: 100 }}%"></div></div>
-      </div>
-
-      {%- for item in cart.items -%}
-        <div class="cart-drawer__item">
-          {%- if item.image -%}<img class="cart-drawer__item-image" src="{{ item.image | image_url: width: 176 }}" alt="" width="88" height="88">{%- endif -%}
-          <div class="cart-drawer__item-info">
-            <p class="cart-drawer__item-title"><a href="{{ item.url }}">{{ item.product.title }}</a></p>
-            <p class="cart-drawer__item-price">{{ item.final_line_price | money }}</p>
-          </div>
-        </div>
-      {%- endfor -%}
-
-      <div style="margin-top:var(--space-lg);padding-top:var(--space-md);border-top:1px solid var(--color-border)">
-        <div class="cart-drawer__subtotal"><span>{{ 'sections.cart.subtotal' | t }}</span><span>{{ cart.total_price | money }}</span></div>
-        <form action="{{ routes.cart_url }}" method="post" style="margin-top:var(--space-md)">
-          <button type="submit" name="checkout" class="btn btn--primary btn--full btn--lg">{{ 'sections.cart.checkout' | t }}</button>
-        </form>
-        {{ content_for_additional_checkout_buttons }}
-      </div>
-    {%- else -%}
-      <div class="cart-drawer__empty">
-        {% render 'icon', icon: 'cart', size: 64 %}
-        <h2>{{ 'sections.cart.empty' | t }}</h2>
-        <p class="text-muted">{{ 'sections.cart.empty_subtitle' | t }}</p>
-        <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">{{ 'sections.cart.continue_shopping' | t }}</a>
-      </div>
-    {%- endif -%}
+    <div data-cart-page-refresh>
+      {% render 'cart-page-body' %}
+    </div>
   </div>
 </section>
 
 {% schema %}
-{ "name": "Cart", "tag": "section" }
+{
+  "name": "Cart",
+  "tag": "section",
+  "class": "section-main-cart"
+}
 {% endschema %}
