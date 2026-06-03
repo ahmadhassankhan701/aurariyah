@@ -4,7 +4,7 @@
       <div class="section__header">
         <h2 class="h2">{{ section.settings.title | default: 'sections.product.recommendations' | t }}</h2>
       </div>
-      <div class="grid grid--4">
+      <div class="grid grid--products">
         {%- for product in recommendations.products -%}
           {% render 'product-card', card_product: product %}
         {%- endfor -%}

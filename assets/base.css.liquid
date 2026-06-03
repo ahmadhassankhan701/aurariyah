@@ -200,11 +200,21 @@ h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
 .grid--3 { grid-template-columns: repeat(3, 1fr); }
 .grid--4 { grid-template-columns: repeat(4, 1fr); }
 
+/* Wider product cards — 2 columns on desktop, 3 on very wide screens */
+.grid--products {
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
+}
+
+@media (min-width: 1400px) {
+  .grid--products { grid-template-columns: repeat(3, 1fr); }
+}
+
 @media (max-width: 1024px) {
   .grid--4 { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 768px) {
-  .grid--3, .grid--4 { grid-template-columns: repeat(2, 1fr); }
+  .grid--3, .grid--4, .grid--products { grid-template-columns: repeat(2, 1fr); }
   .section { padding-block: var(--space-lg); }
   body.has-mobile-nav { padding-bottom: var(--mobile-nav-height); }
 }

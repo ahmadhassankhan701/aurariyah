@@ -1,12 +1,2 @@
-<div class="product-page__grid" style="padding:2rem">
-  <div class="product-gallery">
-    <div class="product-gallery__main">
-      {{ product.featured_media | image_url: width: 600 | image_tag: loading: 'lazy' }}
-    </div>
-  </div>
-  <div class="product-info">
-    <h2 class="h3">{{ product.title }}</h2>
-    <p class="product-info__price">{{ product.price | money }}</p>
-    <a href="{{ product.url }}" class="btn btn--primary btn--full">{{ 'products.product.add_to_cart' | t }}</a>
-  </div>
-</div>
+{% layout none %}
+{% render 'quick-view-product', product: product %}

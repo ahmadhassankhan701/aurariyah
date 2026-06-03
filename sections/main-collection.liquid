@@ -65,7 +65,7 @@
     </div>
 
     {%- paginate collection.products by section.settings.products_per_page -%}
-    <div class="grid grid--4 collection-products" id="ProductGrid">
+    <div class="grid grid--products collection-products" id="ProductGrid">
       {%- for product in collection.products -%}
         {% render 'product-card', card_product: product %}
       {%- else -%}

@@ -71,6 +71,11 @@
       "recommendations": "You may also like",
       "recently_viewed": "Recently viewed"
     },
+    "wishlist": {
+      "empty": "Your wishlist is empty. Save items you love with the heart icon.",
+      "remove": "Remove from wishlist",
+      "view_product": "View full details"
+    },
     "flash_sale": {
       "ends_in": "Ends in",
       "shop_deals": "Shop deals"

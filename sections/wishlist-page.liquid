@@ -1,32 +1,15 @@
-<section class="section">
+<section class="section" data-wishlist-page>
   <div class="container">
     <h1 class="h2" style="margin-bottom:var(--space-lg)">{{ 'sections.header.wishlist' | t }}</h1>
-    <div id="WishlistGrid" class="grid grid--4" data-wishlist-grid>
-      <p class="text-muted" data-wishlist-empty>{{ 'sections.cart.empty_subtitle' | t }}</p>
-    </div>
+    <p class="text-muted" data-wishlist-empty>{{ 'sections.wishlist.empty' | t }}</p>
+    <div id="WishlistGrid" class="grid grid--products" data-wishlist-grid></div>
   </div>
 </section>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var KEY = 'aura_wishlist';
-    var handles = JSON.parse(localStorage.getItem(KEY) || '[]');
-    var grid = document.querySelector('[data-wishlist-grid]');
-    var empty = document.querySelector('[data-wishlist-empty]');
-    if (!handles.length) return;
-    empty.hidden = true;
-    handles.forEach(function(handle) {
-      fetch('/products/' + handle + '.js').then(function(r) { return r.json(); }).then(function(p) {
-        var fmt = (typeof Shopify !== 'undefined' && Shopify.formatMoney) ? Shopify.formatMoney(p.price, window.moneyFormat) : (p.price / 100);
-        var card = document.createElement('article');
-        card.className = 'product-card';
-        card.innerHTML = '<div class="product-card__media"><a href="' + p.url + '"><img src="' + (p.featured_image || '') + '" alt="' + p.title + '" class="product-card__img" loading="lazy"></a></div><div class="product-card__body"><h3 class="product-card__title"><a href="' + p.url + '">' + p.title + '</a></h3><div class="product-card__price"><span class="product-card__price-current">' + fmt + '</span></div></div>';
-        grid.appendChild(card);
-      }).catch(function() {});
-    });
-  });
-</script>
-
 {% schema %}
-{ "name": "Wishlist", "tag": "section" }
+{
+  "name": "Wishlist",
+  "tag": "section",
+  "class": "section-wishlist"
+}
 {% endschema %}

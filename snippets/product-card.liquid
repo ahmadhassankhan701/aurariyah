@@ -1,10 +1,9 @@
 {%- comment -%}
   Premium product card — Aura Riyah
-  Usage: {% render 'product-card', card_product: product %}
+  Usage: {% render 'product-card', card_product: product, show_wishlist_remove: false %}
 {%- endcomment -%}
 {%- liquid
   assign current_variant = card_product.selected_or_first_available_variant
-  assign second_image = card_product.media[1]
   assign on_sale = false
   if card_product.compare_at_price > card_product.price
     assign on_sale = true
@@ -13,9 +12,27 @@
   assign rating_count = card_product.metafields.reviews.rating_count | default: 0
   assign placeholder_idx = card_product.id | modulo: 4 | plus: 1
   assign placeholder_name = 'product-apparel-' | append: placeholder_idx
+
+  assign second_image = nil
+  assign has_alt_image = false
+  if card_product.media.size > 1
+    for media in card_product.media
+      if media.id != card_product.featured_media.id and media.media_type == 'image'
+        assign second_image = media
+        assign has_alt_image = true
+        break
+      endif
+    endfor
+  endif
 -%}
 
-<article class="product-card" data-product-id="{{ card_product.id }}">
+<article class="product-card{% if has_alt_image %} product-card--has-alt-image{% endif %}" data-product-id="{{ card_product.id }}" data-product-handle="{{ card_product.handle }}">
+  {%- if show_wishlist_remove -%}
+    <button type="button" class="product-card__remove" data-wishlist-remove data-product-handle="{{ card_product.handle }}" aria-label="{{ 'sections.wishlist.remove' | t }}">
+      {% render 'icon', icon: 'close', size: 18 %}
+    </button>
+  {%- endif -%}
+
   <div class="product-card__media">
     <a href="{{ card_product.url }}" class="product-card__media-link" aria-label="{{ card_product.title | escape }}">
       {%- if card_product.featured_media -%}
@@ -23,10 +40,10 @@
           class: 'product-card__img product-card__img--primary',
           loading: 'lazy',
           widths: '300,400,600',
-          sizes: '(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw',
+          sizes: '(min-width: 1200px) 33vw, (min-width: 768px) 50vw, 100vw',
           alt: card_product.featured_media.alt | default: card_product.title
         }}
-        {%- if second_image -%}
+        {%- if has_alt_image and second_image -%}
           {{ second_image | image_url: width: 600 | image_tag:
             class: 'product-card__img product-card__img--secondary',
             loading: 'lazy',
@@ -35,7 +52,7 @@
         {%- endif -%}
       {%- else -%}
         <div class="product-card__placeholder-wrap">
-          {{ placeholder_name | placeholder_svg_tag: 'product-card__img product-card__placeholder-svg' }}
+          {{ placeholder_name | placeholder_svg_tag: 'product-card__placeholder-svg' }}
         </div>
       {%- endif -%}
     </a>

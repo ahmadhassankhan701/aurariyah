@@ -12,7 +12,7 @@
       {%- endif -%}
     </div>
 
-    <div class="grid grid--4">
+    <div class="grid grid--products">
       {%- assign collection = section.settings.collection -%}
       {%- if collection != blank -%}
         {%- for product in collection.products limit: section.settings.products_to_show -%}

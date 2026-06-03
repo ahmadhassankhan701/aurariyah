@@ -1,0 +1,48 @@
+{%- comment -%}
+  Quick view panel content only (no theme layout).
+  Usage: product.quick template with layout none
+{%- endcomment -%}
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign featured = current_variant.featured_media | default: product.featured_media
+-%}
+
+<div class="quick-view-product" data-quick-view-content>
+  <div class="quick-view-product__grid">
+    <div class="quick-view-product__media">
+      {%- if featured -%}
+        {{ featured | image_url: width: 800 | image_tag:
+          class: 'quick-view-product__img',
+          loading: 'eager',
+          widths: '400,600,800',
+          alt: product.title
+        }}
+      {%- endif -%}
+    </div>
+
+    <div class="quick-view-product__info">
+      {%- if product.vendor != blank -%}
+        <span class="text-label">{{ product.vendor }}</span>
+      {%- endif -%}
+      <h2 class="h3 quick-view-product__title">{{ product.title }}</h2>
+      <p class="quick-view-product__price">{{ current_variant.price | money }}</p>
+
+      {%- if current_variant.compare_at_price > current_variant.price -%}
+        <p class="text-muted" style="font-size:0.875rem">
+          <s>{{ current_variant.compare_at_price | money }}</s>
+        </p>
+      {%- endif -%}
+
+      <div class="quick-view-product__actions">
+        {%- if product.available -%}
+          <button type="button" class="btn btn--primary btn--full" data-add-to-cart data-variant-id="{{ current_variant.id }}">
+            {{ 'products.product.add_to_cart' | t }}
+          </button>
+        {%- else -%}
+          <button type="button" class="btn btn--primary btn--full" disabled>{{ 'products.product.sold_out' | t }}</button>
+        {%- endif -%}
+        <a href="{{ product.url }}" class="btn btn--secondary btn--full">{{ 'sections.wishlist.view_product' | t }}</a>
+      </div>
+    </div>
+  </div>
+</div>
