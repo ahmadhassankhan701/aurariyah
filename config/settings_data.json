@@ -25,6 +25,24 @@
     "sections": {
       "hero-slider": {
         "type": "hero-slider",
+        "blocks": {
+          "slide_8emH8r": {
+            "type": "slide",
+            "settings": {
+              "eyebrow": "New Arrival",
+              "heading": "Sound. Elevated.",
+              "subheading": "Premium audio engineered for the Gulf.",
+              "button_label": "Shop Now",
+              "button_link": "",
+              "button_secondary_label": "Explore Collection",
+              "button_secondary_link": "",
+              "product_image": "shopify://shop_images/headphones.png"
+            }
+          }
+        },
+        "block_order": [
+          "slide_8emH8r"
+        ],
         "settings": {}
       },
       "trust-bar": {
