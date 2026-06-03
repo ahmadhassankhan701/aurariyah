@@ -1,6 +1,10 @@
 {%- if section.settings.show_announcement -%}
 <div class="announcement-bar" role="region" aria-label="Announcement">
-  <p>{{ section.settings.text | default: 'sections.header.announcement' | t: amount: settings.free_shipping_threshold | money }}</p>
+  {%- if section.settings.text != blank -%}
+    <p>{{ section.settings.text }}</p>
+  {%- else -%}
+    <p>{{ 'sections.header.announcement' | t: amount: settings.free_shipping_threshold | money }}</p>
+  {%- endif -%}
 </div>
 {%- endif -%}
 

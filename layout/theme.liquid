@@ -30,6 +30,19 @@
 
   {{ content_for_header }}
 
+  <style>
+    :root {
+      --color-bg: {{ settings.color_background }};
+      --color-bg-secondary: {{ settings.color_background_secondary }};
+      --color-accent: {{ settings.color_accent }};
+      --color-accent-hover: {{ settings.color_accent_hover }};
+      --color-text: {{ settings.color_text }};
+      --color-text-muted: {{ settings.color_text_muted }};
+      --color-gold: {{ settings.color_gold }};
+      --color-border: {{ settings.color_border }};
+    }
+  </style>
+
   {{ 'base.css' | asset_url | stylesheet_tag }}
   {{ 'component-header.css' | asset_url | stylesheet_tag }}
   {{ 'component-product-card.css' | asset_url | stylesheet_tag }}

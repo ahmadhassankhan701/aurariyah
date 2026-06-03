@@ -32,6 +32,36 @@ cd /Users/apple/Projects/AuraRiyah
 shopify theme push --store your-store.myshopify.com
 ```
 
+## Homepage shows "Page not found"?
+
+This usually means the **store homepage setting** or **theme editor view** is wrong — not that the theme is missing.
+
+### 1. Set the store homepage (most important)
+
+1. Shopify Admin → **Settings** → **Online Store**
+2. Under **Preferences**, find **Homepage**
+3. Select **"Home page"** (the default storefront index) — **not** a custom page
+4. Save
+
+If a deleted custom page was set as homepage, every visit to `/` shows 404.
+
+### 2. Open the homepage in the theme editor
+
+The top dropdown may stay on **404**. Use the **left sidebar** instead:
+
+1. **Online Store** → **Themes** → **Customize**
+2. In the left panel, under **Templates**, click **Home page** (or **Index**)
+3. Or click the **Aura Riyah** logo in the preview to go to `/`
+
+### 3. Sync the latest theme files
+
+If you use GitHub (`aurariyah` repo), pull the latest commit into Shopify:
+
+- **Themes** → **...** → **Edit code** → confirm `templates/index.json` exists
+- Or re-upload `aura-riyah-theme.zip`
+
+---
+
 ## Post-install setup
 
 1. **Languages** — Settings → Languages → Add **Arabic** and publish both EN + AR

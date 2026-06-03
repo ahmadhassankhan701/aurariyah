@@ -13,7 +13,8 @@
     </a>
 
     <nav class="site-header__nav" aria-label="Main">
-      {%- for link in section.settings.menu.links -%}
+      {%- assign nav_menu = section.settings.menu | default: linklists.main-menu -%}
+      {%- for link in nav_menu.links -%}
         <div class="site-header__nav-item">
           <a href="{{ link.url }}" class="site-header__nav-link">{{ link.title }}</a>
           {%- if link.links.size > 0 -%}
@@ -81,7 +82,8 @@
     </div>
     {% render 'language-switcher' %}
     <nav class="mobile-drawer__nav">
-      {%- for link in section.settings.menu.links -%}
+      {%- assign nav_menu = section.settings.menu | default: linklists.main-menu -%}
+      {%- for link in nav_menu.links -%}
         <a href="{{ link.url }}">{{ link.title }}</a>
       {%- endfor -%}
     </nav>

@@ -45,8 +45,8 @@
       {%- endif -%}
       {%- unless card_product.available -%}
         <span class="badge badge--stock">{{ 'products.product.sold_out' | t }}</span>
-      {%- elsif card_product.variants.first.inventory_quantity > 0 and card_product.variants.first.inventory_quantity < 5 -%}
-        <span class="badge badge--stock">{{ 'products.product.low_stock' | t: count: card_product.variants.first.inventory_quantity }}</span>
+      {%- elsif current_variant.inventory_management == 'shopify' and current_variant.inventory_quantity > 0 and current_variant.inventory_quantity < 5 -%}
+        <span class="badge badge--stock">{{ 'products.product.low_stock' | t: count: current_variant.inventory_quantity }}</span>
       {%- endif -%}
     </div>
 

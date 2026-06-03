@@ -1,4 +1,5 @@
 {
+  "layout": "theme",
   "sections": {
     "hero": {
       "type": "hero-slider",
@@ -61,7 +62,7 @@
       "settings": {
         "show_section": true,
         "eyebrow": "Limited Time",
-        "title": "Flash Sale — Premium Tech Deals",
+        "title": "Flash Sale - Premium Tech Deals",
         "end_date": "2026-12-31T23:59:59"
       }
     },
