@@ -1,0 +1,8 @@
+<div class="lang-switcher" role="navigation" aria-label="Language">
+  {%- for locale in shop.published_locales -%}
+    <a href="{{ locale.root_url }}" hreflang="{{ locale.iso_code }}" lang="{{ locale.iso_code }}" class="{% if locale.iso_code == request.locale.iso_code %}is-active{% endif %}">
+      {{ locale.endonym_name }}
+    </a>
+    {%- unless forloop.last -%}<span aria-hidden="true">|</span>{%- endunless -%}
+  {%- endfor -%}
+</div>

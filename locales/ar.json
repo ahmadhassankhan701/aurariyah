@@ -1,0 +1,118 @@
+{
+  "general": {
+    "meta": {
+      "tags": "وسم \"{{ tags }}\"",
+      "page": "صفحة {{ page }}"
+    },
+    "search": {
+      "placeholder": "ابحث عن إكسسوارات فاخرة…",
+      "no_results": "لا توجد نتائج",
+      "title": "بحث"
+    },
+    "language": {
+      "en": "English",
+      "ar": "العربية"
+    },
+    "currency": "العملة",
+    "country": "الدولة",
+    "pagination": {
+      "previous": "السابق",
+      "next": "التالي",
+      "load_more": "تحميل المزيد"
+    },
+    "share": "مشاركة",
+    "close": "إغلاق",
+    "menu": "القائمة"
+  },
+  "accessibility": {
+    "skip_to_content": "انتقل إلى المحتوى",
+    "close": "إغلاق",
+    "loading": "جاري التحميل"
+  },
+  "sections": {
+    "header": {
+      "announcement": "توصيل سريع مجاني لدول الخليج للطلبات فوق {{ amount }}",
+      "menu": "القائمة",
+      "cart": "السلة",
+      "wishlist": "المفضلة",
+      "search": "بحث",
+      "account": "حسابي"
+    },
+    "cart": {
+      "title": "سلة التسوق",
+      "empty": "سلتك فارغة",
+      "empty_subtitle": "اكتشف إكسسوارات وتقنيات فاخرة مصممة لأسلوب حياة الخليج.",
+      "subtotal": "المجموع الفرعي",
+      "checkout": "إتمام الشراء",
+      "view_cart": "عرض السلة",
+      "continue_shopping": "متابعة التسوق",
+      "remove": "إزالة",
+      "quantity": "الكمية",
+      "cart_error": "تعذر تحديث السلة",
+      "quantity_error": "متوفر {{ quantity }} فقط",
+      "free_shipping_remaining": "باقي {{ amount }} للشحن المجاني",
+      "free_shipping_qualified": "حصلت على شحن مجاني لدول الخليج",
+      "upsell_title": "أكمل إعدادك"
+    },
+    "hero": {
+      "shop_now": "تسوق الآن",
+      "explore": "استكشف المجموعة"
+    },
+    "collection": {
+      "filters": "تصفية",
+      "sort": "ترتيب حسب",
+      "products_count": "{{ count }} منتج",
+      "grid_view": "شبكة",
+      "list_view": "قائمة",
+      "clear_filters": "مسح الكل",
+      "apply": "تطبيق"
+    },
+    "product": {
+      "recommendations": "قد يعجبك أيضاً",
+      "recently_viewed": "شوهد مؤخراً"
+    },
+    "flash_sale": {
+      "ends_in": "ينتهي خلال",
+      "shop_deals": "تسوق العروض"
+    },
+    "footer": {
+      "newsletter_title": "انضم للدائرة الداخلية",
+      "newsletter_placeholder": "بريدك الإلكتروني",
+      "subscribe": "اشترك",
+      "rights": "جميع الحقوق محفوظة."
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "أضف إلى السلة",
+      "sold_out": "نفدت الكمية",
+      "unavailable": "غير متوفر",
+      "quick_add": "إضافة سريعة",
+      "quick_view": "معاينة سريعة",
+      "wishlist": "أضف للمفضلة",
+      "in_stock": "متوفر",
+      "low_stock": "باقي {{ count }} فقط",
+      "out_of_stock": "غير متوفر",
+      "compare": "مقارنة",
+      "description": "الوصف",
+      "specifications": "المواصفات",
+      "shipping": "الشحن والإرجاع",
+      "faq": "الأسئلة الشائعة",
+      "warranty": "الضمان",
+      "delivery": "التوصيل",
+      "quantity": "الكمية",
+      "share": "مشاركة",
+      "reviews": "التقييمات",
+      "installment": "ادفع على 4 دفعات بدون فوائد",
+      "save": "وفر {{ amount }}",
+      "bundle_offer": "باقة وتوفير",
+      "view_360": "عرض 360°",
+      "fullscreen": "ملء الشاشة"
+    }
+  },
+  "customer": {
+    "account": {
+      "title": "حسابي"
+    }
+  }
+}

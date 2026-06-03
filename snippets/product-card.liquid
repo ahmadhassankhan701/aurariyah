@@ -1,0 +1,106 @@
+{%- liquid
+  assign current_variant = card_product.selected_or_first_available_variant
+  assign second_image = card_product.media[1]
+  assign on_sale = false
+  if card_product.compare_at_price > card_product.price
+    assign on_sale = true
+    assign save_amount = card_product.compare_at_price | minus: card_product.price | money
+  endif
+  assign rating_value = card_product.metafields.reviews.rating.value | default: 4.5
+  assign rating_count = card_product.metafields.reviews.rating_count | default: 0
+-%}
+
+<article class="product-card" data-product-id="{{ card_product.id }}">
+  <div class="product-card__media">
+    <a href="{{ card_product.url }}" class="product-card__media-link" aria-label="{{ card_product.title | escape }}">
+      {%- if card_product.featured_media -%}
+        {{ card_product.featured_media | image_url: width: 600 | image_tag:
+          class: 'product-card__img product-card__img--primary',
+          loading: 'lazy',
+          widths: '300,400,600',
+          sizes: '(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw',
+          alt: card_product.featured_media.alt | default: card_product.title
+        }}
+        {%- if second_image -%}
+          {{ second_image | image_url: width: 600 | image_tag:
+            class: 'product-card__img product-card__img--secondary',
+            loading: 'lazy',
+            alt: second_image.alt
+          }}
+        {%- endif -%}
+      {%- else -%}
+        <div class="product-card__img skeleton" style="aspect-ratio:1"></div>
+      {%- endif -%}
+    </a>
+
+    <div class="product-card__badges">
+      {%- if on_sale -%}
+        <span class="badge badge--sale">
+          {%- if card_product.compare_at_price > card_product.price -%}
+            -{{ card_product.compare_at_price | minus: card_product.price | times: 100 | divided_by: card_product.compare_at_price }}%
+          {%- else -%}
+            Sale
+          {%- endif -%}
+        </span>
+      {%- endif -%}
+      {%- unless card_product.available -%}
+        <span class="badge badge--stock">{{ 'products.product.sold_out' | t }}</span>
+      {%- elsif card_product.variants.first.inventory_quantity > 0 and card_product.variants.first.inventory_quantity < 5 -%}
+        <span class="badge badge--stock">{{ 'products.product.low_stock' | t: count: card_product.variants.first.inventory_quantity }}</span>
+      {%- endif -%}
+    </div>
+
+    <div class="product-card__actions">
+      <button type="button" class="product-card__action-btn" data-wishlist-toggle data-product-handle="{{ card_product.handle }}" aria-label="{{ 'products.product.wishlist' | t }}">
+        {% render 'icon', icon: 'heart', size: 18 %}
+      </button>
+      <button type="button" class="product-card__action-btn" data-quick-view data-product-handle="{{ card_product.handle }}" aria-label="{{ 'products.product.quick_view' | t }}">
+        {% render 'icon', icon: 'eye', size: 18 %}
+      </button>
+    </div>
+
+    {%- if card_product.available -%}
+      <div class="product-card__quick-add">
+        <button type="button" class="btn btn--primary btn--full btn--sm" data-add-to-cart data-variant-id="{{ current_variant.id }}" data-quantity="1">
+          {{ 'products.product.quick_add' | t }}
+        </button>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="product-card__body">
+    {%- if card_product.vendor != blank -%}
+      <span class="product-card__vendor">{{ card_product.vendor }}</span>
+    {%- endif -%}
+
+    <h3 class="product-card__title">
+      <a href="{{ card_product.url }}">{{ card_product.title }}</a>
+    </h3>
+
+    <div class="product-card__rating rating">
+      {%- for i in (1..5) -%}
+        <span class="rating__star" aria-hidden="true">{% if i <= rating_value %}{% render 'icon', icon: 'star', size: 14 %}{% endif %}</span>
+      {%- endfor -%}
+      {%- if rating_count > 0 -%}
+        <span class="text-muted">({{ rating_count }})</span>
+      {%- endif -%}
+    </div>
+
+    {%- assign color_option = card_product.options_by_name['Color'] | default: card_product.options_by_name['Colour'] -%}
+    {%- if color_option and color_option.values.size > 0 -%}
+      <div class="product-card__swatches" role="list">
+        {%- for value in color_option.values limit: 5 -%}
+          {%- assign swatch_variant = card_product.variants | where: 'option1', value | first -%}
+          <span class="product-card__swatch{% if forloop.first %} is-active{% endif %}" role="listitem" title="{{ value }}" style="background-color: {{ value | handle | replace: '-', '' }};"></span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div class="product-card__price">
+      <span class="product-card__price-current">{{ card_product.price | money }}</span>
+      {%- if on_sale -%}
+        <span class="product-card__price-compare">{{ card_product.compare_at_price | money }}</span>
+      {%- endif -%}
+    </div>
+  </div>
+</article>

@@ -1,0 +1,97 @@
+<section class="hero-slider" id="HeroSlider" aria-label="Hero">
+  {%- for block in section.blocks -%}
+    <div class="hero-slide{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }} data-slide="{{ forloop.index0 }}">
+      <div class="hero-slide__content">
+        {%- if block.settings.eyebrow != blank -%}
+          <p class="hero-slide__eyebrow">{{ block.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h1 class="hero-slide__title">{{ block.settings.heading }}</h1>
+        {%- if block.settings.subheading != blank -%}
+          <p class="hero-slide__subtitle">{{ block.settings.subheading }}</p>
+        {%- endif -%}
+        <div class="hero-slide__actions">
+          {%- if block.settings.button_label != blank -%}
+            <a href="{{ block.settings.button_link }}" class="btn btn--primary btn--lg">{{ block.settings.button_label }}</a>
+          {%- endif -%}
+          {%- if block.settings.button_secondary_label != blank -%}
+            <a href="{{ block.settings.button_secondary_link }}" class="btn btn--secondary btn--lg">{{ block.settings.button_secondary_label }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="hero-slide__visual">
+        <div class="hero-slide__frame">
+          {%- if block.settings.product_image != blank -%}
+            {{ block.settings.product_image | image_url: width: 800 | image_tag:
+              class: 'hero-slide__product-float',
+              loading: 'lazy',
+              widths: '400,600,800',
+              sizes: '(min-width: 768px) 40vw, 80vw',
+              alt: block.settings.heading
+            }}
+          {%- elsif block.settings.background_image != blank -%}
+            {{ block.settings.background_image | image_url: width: 800 | image_tag: class: 'hero-slide__product-float', loading: 'lazy' }}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  {%- endfor -%}
+
+  {%- if section.blocks.size > 1 -%}
+    <div class="hero-slider__nav" role="tablist">
+      {%- for block in section.blocks -%}
+        <button type="button" class="hero-slider__dot{% if forloop.first %} is-active{% endif %}" aria-label="Slide {{ forloop.index }}" role="tab"></button>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Hero slider",
+  "tag": "section",
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "New Arrival" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Sound. Elevated." },
+        { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Premium audio engineered for the Gulf." },
+        { "type": "text", "id": "button_label", "label": "Primary button", "default": "Shop Now" },
+        { "type": "url", "id": "button_link", "label": "Primary link" },
+        { "type": "text", "id": "button_secondary_label", "label": "Secondary button", "default": "Explore Collection" },
+        { "type": "url", "id": "button_secondary_link", "label": "Secondary link" },
+        { "type": "image_picker", "id": "product_image", "label": "Floating product image" },
+        { "type": "image_picker", "id": "background_image", "label": "Background image" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero slider",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Premium Audio",
+            "heading": "Sound. Elevated.",
+            "subheading": "Studio-grade wireless headphones crafted for discerning listeners across the GCC.",
+            "button_label": "Shop Now",
+            "button_secondary_label": "Explore Collection"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Smart Living",
+            "heading": "Future on Your Wrist.",
+            "subheading": "Next-generation smartwatches with Gulf-ready precision and style.",
+            "button_label": "Discover Watches"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

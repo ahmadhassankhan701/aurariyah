@@ -1,0 +1,103 @@
+<header class="site-header is-transparent" data-transparent="true" id="SiteHeader">
+  <div class="container site-header__inner">
+    <button type="button" class="header-icon-btn hamburger" data-mobile-menu-open aria-label="{{ 'general.menu' | t }}">
+      {% render 'icon', icon: 'menu', size: 22 %}
+    </button>
+
+    <a href="{{ routes.root_url }}" class="site-header__logo">
+      {%- if settings.logo != blank -%}
+        {{ settings.logo | image_url: width: settings.logo_width | image_tag: loading: 'eager', widths: '140,200,280', alt: shop.name }}
+      {%- else -%}
+        <span class="site-header__logo-text">Aura Riyah</span>
+      {%- endif -%}
+    </a>
+
+    <nav class="site-header__nav" aria-label="Main">
+      {%- for link in section.settings.menu.links -%}
+        <div class="site-header__nav-item">
+          <a href="{{ link.url }}" class="site-header__nav-link">{{ link.title }}</a>
+          {%- if link.links.size > 0 -%}
+            <div class="mega-menu">
+              <div class="container mega-menu__grid">
+                {%- for child in link.links -%}
+                  <div>
+                    <a href="{{ child.url }}" class="h4" style="margin-bottom:0.75rem;display:block">{{ child.title }}</a>
+                    {%- for grandchild in child.links -%}
+                      <a href="{{ grandchild.url }}" class="text-muted" style="display:block;padding:0.25rem 0;font-size:0.875rem">{{ grandchild.title }}</a>
+                    {%- endfor -%}
+                  </div>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </nav>
+
+    <div class="site-header__actions">
+      {% render 'language-switcher' %}
+
+      <button type="button" class="header-icon-btn" data-search-open aria-label="{{ 'sections.header.search' | t }}">
+        {% render 'icon', icon: 'search', size: 22 %}
+      </button>
+
+      <a href="/pages/wishlist" class="header-icon-btn" aria-label="{{ 'sections.header.wishlist' | t }}">
+        {% render 'icon', icon: 'heart', size: 22 %}
+        <span class="header-icon-btn__count" data-wishlist-count hidden>0</span>
+      </a>
+
+      {%- if shop.customer_accounts_enabled -%}
+        <a href="{{ routes.account_url }}" class="header-icon-btn" aria-label="{{ 'sections.header.account' | t }}">
+          {% render 'icon', icon: 'user', size: 22 %}
+        </a>
+      {%- endif -%}
+
+      <button type="button" class="header-icon-btn" data-cart-open aria-label="{{ 'sections.header.cart' | t }}">
+        {% render 'icon', icon: 'cart', size: 22 %}
+        <span class="header-icon-btn__count" data-cart-count {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="search-modal" id="SearchModal" role="dialog" aria-modal="true" aria-label="{{ 'general.search.title' | t }}">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <span class="text-label">{{ 'general.search.title' | t }}</span>
+      <button type="button" data-search-close aria-label="{{ 'general.close' | t }}">{% render 'icon', icon: 'close', size: 24 %}</button>
+    </div>
+    <form action="{{ routes.search_url }}" method="get" role="search">
+      <input type="search" name="q" class="search-modal__input" placeholder="{{ 'general.search.placeholder' | t }}" autocomplete="off" aria-label="{{ 'general.search.placeholder' | t }}">
+    </form>
+    <div class="search-modal__suggestions predictive-search-results"></div>
+  </div>
+</div>
+
+<div class="mobile-drawer" id="MobileDrawer">
+  <div class="mobile-drawer__panel">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+      <span class="site-header__logo-text">Aura Riyah</span>
+      <button type="button" data-mobile-menu-close aria-label="{{ 'general.close' | t }}">{% render 'icon', icon: 'close', size: 24 %}</button>
+    </div>
+    {% render 'language-switcher' %}
+    <nav class="mobile-drawer__nav">
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

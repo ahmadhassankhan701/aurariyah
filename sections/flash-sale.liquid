@@ -1,0 +1,38 @@
+{%- if section.settings.show_section -%}
+<section class="section section--tight">
+  <div class="flash-sale container">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--space-md)">
+      <div>
+        <p class="text-label" style="color:rgba(255,255,255,0.7);margin-bottom:0.5rem">{{ section.settings.eyebrow }}</p>
+        <h2 class="h3" style="color:#fff">{{ section.settings.title }}</h2>
+      </div>
+      <div data-countdown data-end="{{ section.settings.end_date | default: '2026-12-31T23:59:59' }}">
+        <p style="font-size:0.75rem;margin-bottom:0.5rem;opacity:0.8">{{ 'sections.flash_sale.ends_in' | t }}</p>
+        <div class="countdown">
+          <div class="countdown__unit"><span class="countdown__value" data-days>00</span><span class="countdown__label">Days</span></div>
+          <div class="countdown__unit"><span class="countdown__value" data-hours>00</span><span class="countdown__label">Hrs</span></div>
+          <div class="countdown__unit"><span class="countdown__value" data-minutes>00</span><span class="countdown__label">Min</span></div>
+          <div class="countdown__unit"><span class="countdown__value" data-seconds>00</span><span class="countdown__label">Sec</span></div>
+        </div>
+      </div>
+      {%- if section.settings.collection != blank -%}
+        <a href="{{ section.settings.collection.url }}" class="btn btn--ghost">{{ 'sections.flash_sale.shop_deals' | t }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Flash sale countdown",
+  "settings": [
+    { "type": "checkbox", "id": "show_section", "label": "Show section", "default": true },
+    { "type": "text", "id": "eyebrow", "default": "Limited Time" },
+    { "type": "text", "id": "title", "default": "Flash Sale — Up to 40% Off" },
+    { "type": "text", "id": "end_date", "label": "End date (ISO)", "default": "2026-12-31T23:59:59" },
+    { "type": "collection", "id": "collection", "label": "Collection" }
+  ],
+  "presets": [{ "name": "Flash sale" }]
+}
+{% endschema %}

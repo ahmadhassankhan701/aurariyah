@@ -1,0 +1,45 @@
+<section class="section section--tight" style="background:var(--color-bg-secondary)">
+  <div class="container">
+    <div class="grid grid--4" style="text-align:center;gap:var(--space-md)">
+      {%- for block in section.blocks -%}
+        <div {{ block.shopify_attributes }} style="display:flex;flex-direction:column;align-items:center;gap:0.5rem">
+          {% render 'icon', icon: block.settings.icon, size: 28 %}
+          <p class="h4" style="font-size:0.9375rem">{{ block.settings.title }}</p>
+          <p class="text-muted" style="font-size:0.8125rem">{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust bar",
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Trust item",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "options": [
+          { "value": "truck", "label": "Delivery" },
+          { "value": "shield", "label": "Warranty" },
+          { "value": "star", "label": "Quality" }
+        ], "default": "truck" },
+        { "type": "text", "id": "title", "default": "GCC Express Delivery" },
+        { "type": "text", "id": "text", "default": "1–3 business days" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust bar",
+      "blocks": [
+        { "type": "item", "settings": { "icon": "truck", "title": "GCC Express Delivery", "text": "Qatar, UAE, KSA & more" } },
+        { "type": "item", "settings": { "icon": "shield", "title": "Official Warranty", "text": "2-year coverage" } },
+        { "type": "item", "settings": { "icon": "star", "title": "Premium Quality", "text": "Curated global brands" } },
+        { "type": "item", "settings": { "icon": "shield", "title": "Secure Checkout", "text": "Apple Pay & local methods" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

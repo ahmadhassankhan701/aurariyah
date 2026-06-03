@@ -1,0 +1,194 @@
+{{ 'component-product.css' | asset_url | stylesheet_tag }}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "description": {{ product.description | strip_html | truncate: 320 | json }},
+  "image": [{% for media in product.media limit: 5 %}"{{ media | image_url: width: 1200 }}"{% unless forloop.last %},{% endunless %}{% endfor %}],
+  "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": {{ cart.currency.iso_code | json }},
+    "price": "{{ product.selected_or_first_available_variant.price | money_without_currency }}",
+    "availability": "https://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}"
+  }
+}
+</script>
+
+<div class="container product-page" data-product-id="{{ product.id }}">
+  <div class="product-page__grid">
+    <div class="product-gallery">
+      <div class="product-gallery__main">
+        {%- assign featured = product.selected_or_first_available_variant.featured_media | default: product.featured_media -%}
+        {%- if featured.media_type == 'video' -%}
+          {{ featured | video_tag: autoplay: false, loop: true, controls: true, class: 'product-gallery__video' }}
+        {%- elsif featured -%}
+          {{ featured | image_url: width: 1200 | image_tag:
+            id: 'ProductMainImage',
+            loading: 'eager',
+            widths: '600,900,1200',
+            sizes: '(min-width: 1024px) 50vw, 100vw',
+            alt: featured.alt | default: product.title
+          }}
+        {%- endif -%}
+        <span class="product-gallery__zoom-hint">{{ 'products.product.fullscreen' | t }}</span>
+        {%- if product.metafields.custom.has_360 -%}
+          <span class="badge badge--gold product-gallery__badge-360">{{ 'products.product.view_360' | t }}</span>
+        {%- endif -%}
+      </div>
+
+      <div class="product-gallery__thumbs" role="list">
+        {%- for media in product.media -%}
+          <button type="button" class="product-gallery__thumb{% if forloop.first %} is-active{% endif %}" role="listitem"
+            data-src="{{ media | image_url: width: 1200 }}"
+            data-alt="{{ media.alt | escape }}">
+            {{ media.preview_image | image_url: width: 144 | image_tag: loading: 'lazy', alt: media.alt }}
+          </button>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <div class="product-info">
+      {%- if product.vendor != blank -%}
+        <span class="text-label">{{ product.vendor }}</span>
+      {%- endif -%}
+
+      <h1 class="product-info__title">{{ product.title }}</h1>
+
+      <div class="product-info__price-row">
+        <span class="product-info__price" data-product-price>{{ product.selected_or_first_available_variant.price | money }}</span>
+        <span class="product-info__compare" data-product-compare {% unless product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}hidden{% endunless %}>
+          {{ product.selected_or_first_available_variant.compare_at_price | money }}
+        </span>
+        {%- if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price -%}
+          <span class="product-info__save">{{ 'products.product.save' | t: amount: product.selected_or_first_available_variant.compare_at_price | minus: product.selected_or_first_available_variant.price | money }}</span>
+        {%- endif -%}
+      </div>
+
+      <div class="product-info__badges-row">
+        {%- if product.available -%}
+          <span class="badge badge--stock">{% render 'icon', icon: 'shield', size: 14 %} {{ 'products.product.in_stock' | t }}</span>
+        {%- endif -%}
+        <span class="trust-badge">{% render 'icon', icon: 'truck', size: 16 %} {{ settings.delivery_text }}</span>
+        <span class="trust-badge">{% render 'icon', icon: 'shield', size: 16 %} {{ settings.warranty_text }}</span>
+      </div>
+
+      {%- if settings.show_installment_badges -%}
+        <div class="product-info__installment">
+          <span style="font-weight:700;color:var(--color-accent)">Tabby · Tamara</span>
+          <span>{{ 'products.product.installment' | t }}</span>
+        </div>
+      {%- endif -%}
+
+      {% form 'product', product, class: 'product-form', id: 'ProductForm' %}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-variant-input>
+
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            <div class="product-form__variants" data-option-index="{{ forloop.index0 }}">
+              <label class="product-form__option-label">{{ option.name }}</label>
+              {%- if option.name == 'Color' or option.name == 'Colour' -%}
+                <div class="color-swatches">
+                  {%- for value in option.values -%}
+                    <button type="button" class="color-swatch{% if option.selected_value == value %} is-selected{% endif %}" data-value="{{ value | escape }}" title="{{ value }}" style="background:{{ value | handle }}"></button>
+                  {%- endfor -%}
+                </div>
+              {%- else -%}
+                <div class="variant-pills">
+                  {%- for value in option.values -%}
+                    <button type="button" class="variant-pill{% if option.selected_value == value %} is-selected{% endif %}" data-value="{{ value | escape }}">{{ value }}</button>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        {%- endunless -%}
+
+        <div class="product-form__qty-row">
+          <div class="quantity-input">
+            <button type="button" data-qty-minus aria-label="Decrease">{% render 'icon', icon: 'minus', size: 18 %}</button>
+            <input type="number" name="quantity" value="1" min="1" max="10" aria-label="{{ 'products.product.quantity' | t }}">
+            <button type="button" data-qty-plus aria-label="Increase">{% render 'icon', icon: 'plus', size: 18 %}</button>
+          </div>
+        </div>
+
+        <div class="product-form__actions">
+          <button type="submit" class="btn btn--primary btn--lg" data-add-to-cart data-variant-id="{{ product.selected_or_first_available_variant.id }}" {% unless product.available %}disabled{% endunless %}>
+            {%- if product.available -%}{{ 'products.product.add_to_cart' | t }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}
+          </button>
+          <button type="button" class="header-icon-btn" data-wishlist-toggle data-product-handle="{{ product.handle }}" aria-label="{{ 'products.product.wishlist' | t }}" style="width:52px;height:52px;border:1.5px solid var(--color-border)">
+            {% render 'icon', icon: 'heart', size: 22 %}
+          </button>
+        </div>
+      {% endform %}
+
+      <div class="product-info__share-row">
+        <span class="text-muted" style="font-size:0.875rem">{{ 'products.product.share' | t }}:</span>
+        <a href="https://wa.me/?text={{ product.title | url_encode }}%20{{ shop.url }}{{ product.url }}" class="header-icon-btn" target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
+        <button type="button" class="header-icon-btn" onclick="navigator.share?.({title:'{{ product.title | escape }}',url:location.href})" aria-label="{{ 'products.product.share' | t }}">
+          {% render 'icon', icon: 'share', size: 20 %}
+        </button>
+      </div>
+
+      <div class="accordion" style="margin-top:var(--space-lg)">
+        <div class="accordion__item is-open">
+          <button type="button" class="accordion__trigger">{{ 'products.product.description' | t }} {% render 'icon', icon: 'chevron-right', size: 18 %}</button>
+          <div class="accordion__panel">
+            <div class="accordion__content rte">{{ product.description }}</div>
+          </div>
+        </div>
+
+        {%- if section.settings.specs != blank -%}
+          <div class="accordion__item">
+            <button type="button" class="accordion__trigger">{{ 'products.product.specifications' | t }}</button>
+            <div class="accordion__panel">
+              <div class="accordion__content">
+                <table class="specs-table">
+                  {{ section.settings.specs }}
+                </table>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+
+        <div class="accordion__item">
+          <button type="button" class="accordion__trigger">{{ 'products.product.shipping' | t }}</button>
+          <div class="accordion__panel">
+            <div class="accordion__content">{{ section.settings.shipping_text | default: settings.delivery_text }}</div>
+          </div>
+        </div>
+
+        <div class="accordion__item">
+          <button type="button" class="accordion__trigger">{{ 'products.product.faq' | t }}</button>
+          <div class="accordion__panel">
+            <div class="accordion__content">{{ section.settings.faq_content }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sticky-atc">
+  <span class="sticky-atc__price" data-product-price>{{ product.selected_or_first_available_variant.price | money }}</span>
+  <button type="button" class="btn btn--primary btn--full" data-add-to-cart data-variant-id="{{ product.selected_or_first_available_variant.id }}">
+    {{ 'products.product.add_to_cart' | t }}
+  </button>
+</div>
+
+<script id="ProductJSON" type="application/json">{{ product | json }}</script>
+
+{% schema %}
+{
+  "name": "Product information",
+  "tag": "section",
+  "class": "section-main-product",
+  "settings": [
+    { "type": "html", "id": "specs", "label": "Specifications table HTML" },
+    { "type": "richtext", "id": "shipping_text", "label": "Shipping content" },
+    { "type": "richtext", "id": "faq_content", "label": "FAQ content" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,50 @@
+<section class="section" id="FeaturedCollection-{{ section.id }}">
+  <div class="container">
+    <div class="section__header">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="text-label">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="h2">{{ section.settings.title }}</h2>
+      </div>
+      {%- if section.settings.show_view_all and section.settings.collection != blank -%}
+        <a href="{{ section.settings.collection.url }}" class="btn btn--secondary btn--sm">{{ section.settings.view_all_label | default: 'View all' }}</a>
+      {%- endif -%}
+    </div>
+
+    <div class="grid grid--4">
+      {%- assign collection = section.settings.collection -%}
+      {%- if collection != blank -%}
+        {%- for product in collection.products limit: section.settings.products_to_show -%}
+          {% render 'product-card', card_product: product %}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..4) -%}
+          <div class="product-card">
+            <div class="product-card__media skeleton" style="aspect-ratio:1"></div>
+            <div class="product-card__body">
+              <div class="skeleton" style="height:1rem;width:60%;margin-bottom:0.5rem"></div>
+              <div class="skeleton" style="height:1.25rem;width:80%"></div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Curated" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Bestsellers" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "products_to_show", "min": 2, "max": 12, "step": 1, "default": 8, "label": "Products to show" },
+    { "type": "checkbox", "id": "show_view_all", "label": "Show view all", "default": true },
+    { "type": "text", "id": "view_all_label", "label": "View all label" }
+  ],
+  "presets": [{ "name": "Featured collection" }]
+}
+{% endschema %}

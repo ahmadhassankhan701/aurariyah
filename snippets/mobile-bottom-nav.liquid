@@ -1,0 +1,25 @@
+<nav class="mobile-bottom-nav" aria-label="Mobile navigation">
+  <div class="mobile-bottom-nav__inner">
+    <a href="{{ routes.root_url }}" class="mobile-bottom-nav__link{% if request.path == '/' %} is-active{% endif %}">
+      {% render 'icon', icon: 'home', size: 22 %}
+      <span>{{ 'general.menu' | t }}</span>
+    </a>
+    <button type="button" class="mobile-bottom-nav__link" data-search-open>
+      {% render 'icon', icon: 'search', size: 22 %}
+      <span>{{ 'sections.header.search' | t }}</span>
+    </button>
+    <a href="{{ routes.collections_url }}" class="mobile-bottom-nav__link">
+      {% render 'icon', icon: 'grid', size: 22 %}
+      <span>Shop</span>
+    </a>
+    <a href="/pages/wishlist" class="mobile-bottom-nav__link">
+      {% render 'icon', icon: 'heart', size: 22 %}
+      <span data-wishlist-count hidden>0</span>
+      <span>{{ 'sections.header.wishlist' | t }}</span>
+    </a>
+    <button type="button" class="mobile-bottom-nav__link" data-cart-open>
+      {% render 'icon', icon: 'cart', size: 22 %}
+      <span>{{ 'sections.header.cart' | t }}</span>
+    </button>
+  </div>
+</nav>

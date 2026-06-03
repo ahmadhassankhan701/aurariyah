@@ -1,0 +1,88 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-slider",
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Premium Audio",
+            "heading": "Sound. Elevated.",
+            "subheading": "Studio-grade wireless headphones crafted for discerning listeners across the GCC.",
+            "button_label": "Shop Now",
+            "button_link": "shopify://collections/all",
+            "button_secondary_label": "Explore Collection",
+            "button_secondary_link": "shopify://collections/all"
+          }
+        },
+        "slide_2": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Smart Living",
+            "heading": "Future on Your Wrist.",
+            "subheading": "Next-generation smartwatches with Gulf-ready precision and style.",
+            "button_label": "Discover Watches",
+            "button_link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": ["slide_1", "slide_2"]
+    },
+    "trust": {
+      "type": "trust-bar",
+      "blocks": {
+        "t1": { "type": "item", "settings": { "icon": "truck", "title": "GCC Express Delivery", "text": "Qatar, UAE, KSA & more" } },
+        "t2": { "type": "item", "settings": { "icon": "shield", "title": "Official Warranty", "text": "2-year coverage" } },
+        "t3": { "type": "item", "settings": { "icon": "star", "title": "Premium Quality", "text": "Curated global brands" } },
+        "t4": { "type": "item", "settings": { "icon": "shield", "title": "Secure Checkout", "text": "Apple Pay & local methods" } }
+      },
+      "block_order": ["t1", "t2", "t3", "t4"]
+    },
+    "categories": {
+      "type": "category-tiles",
+      "blocks": {
+        "c1": { "type": "tile", "settings": { "eyebrow": "Audio", "title": "Headphones & Earbuds" } },
+        "c2": { "type": "tile", "settings": { "eyebrow": "Wearables", "title": "Smartwatches" } },
+        "c3": { "type": "tile", "settings": { "eyebrow": "Gaming", "title": "Gaming Accessories" } }
+      },
+      "block_order": ["c1", "c2", "c3"]
+    },
+    "featured": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Curated",
+        "title": "Bestsellers",
+        "products_to_show": 8,
+        "show_view_all": true
+      }
+    },
+    "flash": {
+      "type": "flash-sale",
+      "settings": {
+        "show_section": true,
+        "eyebrow": "Limited Time",
+        "title": "Flash Sale — Premium Tech Deals",
+        "end_date": "2026-12-31T23:59:59"
+      }
+    },
+    "featured_2": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "New Arrivals",
+        "title": "Just Landed",
+        "products_to_show": 4
+      }
+    },
+    "story": {
+      "type": "image-with-text",
+      "settings": {
+        "eyebrow": "Aura Riyah",
+        "heading": "Luxury Technology for the Gulf",
+        "text": "<p>We curate the world's finest mobile accessories, audio devices, and smart gadgets — delivered with white-glove service across Qatar and the GCC.</p>",
+        "button_label": "Our Story",
+        "button_link": "/pages/about"
+      }
+    }
+  },
+  "order": ["hero", "trust", "categories", "featured", "flash", "featured_2", "story"]
+}

@@ -1,0 +1,36 @@
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-xl);align-items:center">
+      <div style="border-radius:var(--radius-xl);overflow:hidden;background:var(--color-bg-secondary)">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width:768px) 50vw, 100vw' }}
+        {%- endif -%}
+      </div>
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<p class="text-label">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h2 class="h2" style="margin:var(--space-sm) 0 var(--space-md)">{{ section.settings.heading }}</h2>
+        <div class="text-muted rte">{{ section.settings.text }}</div>
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ section.settings.button_link }}" class="btn btn--primary" style="margin-top:var(--space-md)">{{ section.settings.button_label }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>@media(max-width:768px){section .container>div{grid-template-columns:1fr!important}}</style>
+
+{% schema %}
+{
+  "name": "Image with text",
+  "settings": [
+    { "type": "image_picker", "id": "image" },
+    { "type": "text", "id": "eyebrow", "default": "Our Story" },
+    { "type": "text", "id": "heading", "default": "Engineered for the Gulf" },
+    { "type": "richtext", "id": "text" },
+    { "type": "text", "id": "button_label" },
+    { "type": "url", "id": "button_link" }
+  ],
+  "presets": [{ "name": "Image with text" }]
+}
+{% endschema %}

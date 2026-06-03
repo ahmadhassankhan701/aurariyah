@@ -1,0 +1,118 @@
+{
+  "general": {
+    "meta": {
+      "tags": "Tagged \"{{ tags }}\"",
+      "page": "Page {{ page }}"
+    },
+    "search": {
+      "placeholder": "Search premium gadgets…",
+      "no_results": "No results found",
+      "title": "Search"
+    },
+    "language": {
+      "en": "English",
+      "ar": "العربية"
+    },
+    "currency": "Currency",
+    "country": "Country",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "load_more": "Load more"
+    },
+    "share": "Share",
+    "close": "Close",
+    "menu": "Menu"
+  },
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "close": "Close",
+    "loading": "Loading"
+  },
+  "sections": {
+    "header": {
+      "announcement": "Free express delivery across GCC on orders over {{ amount }}",
+      "menu": "Menu",
+      "cart": "Cart",
+      "wishlist": "Wishlist",
+      "search": "Search",
+      "account": "Account"
+    },
+    "cart": {
+      "title": "Your Cart",
+      "empty": "Your cart is empty",
+      "empty_subtitle": "Discover premium accessories crafted for the Gulf lifestyle.",
+      "subtotal": "Subtotal",
+      "checkout": "Checkout",
+      "view_cart": "View cart",
+      "continue_shopping": "Continue shopping",
+      "remove": "Remove",
+      "quantity": "Quantity",
+      "cart_error": "Could not update cart",
+      "quantity_error": "Only {{ quantity }} available",
+      "free_shipping_remaining": "{{ amount }} away from free shipping",
+      "free_shipping_qualified": "You've unlocked free GCC shipping",
+      "upsell_title": "Complete your setup"
+    },
+    "hero": {
+      "shop_now": "Shop Now",
+      "explore": "Explore Collection"
+    },
+    "collection": {
+      "filters": "Filters",
+      "sort": "Sort by",
+      "products_count": "{{ count }} products",
+      "grid_view": "Grid",
+      "list_view": "List",
+      "clear_filters": "Clear all",
+      "apply": "Apply"
+    },
+    "product": {
+      "recommendations": "You may also like",
+      "recently_viewed": "Recently viewed"
+    },
+    "flash_sale": {
+      "ends_in": "Ends in",
+      "shop_deals": "Shop deals"
+    },
+    "footer": {
+      "newsletter_title": "Join the inner circle",
+      "newsletter_placeholder": "Your email",
+      "subscribe": "Subscribe",
+      "rights": "All rights reserved."
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "sold_out": "Sold out",
+      "unavailable": "Unavailable",
+      "quick_add": "Quick add",
+      "quick_view": "Quick view",
+      "wishlist": "Add to wishlist",
+      "in_stock": "In stock",
+      "low_stock": "Only {{ count }} left",
+      "out_of_stock": "Out of stock",
+      "compare": "Compare",
+      "description": "Description",
+      "specifications": "Specifications",
+      "shipping": "Shipping & returns",
+      "faq": "FAQ",
+      "warranty": "Warranty",
+      "delivery": "Delivery",
+      "quantity": "Quantity",
+      "share": "Share",
+      "reviews": "Reviews",
+      "installment": "Pay in 4 interest-free installments",
+      "save": "Save {{ amount }}",
+      "bundle_offer": "Bundle & save",
+      "view_360": "360° View",
+      "fullscreen": "Fullscreen"
+    }
+  },
+  "customer": {
+    "account": {
+      "title": "Account"
+    }
+  }
+}

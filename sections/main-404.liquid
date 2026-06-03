@@ -1,0 +1,12 @@
+<section class="section" style="text-align:center;padding:var(--space-2xl) 0">
+  <div class="container">
+    <p class="text-label">404</p>
+    <h1 class="h1" style="margin:var(--space-sm) 0">Page not found</h1>
+    <p class="text-muted" style="margin-bottom:var(--space-lg)">The page you're looking for doesn't exist.</p>
+    <a href="{{ routes.root_url }}" class="btn btn--primary">{{ 'sections.cart.continue_shopping' | t }}</a>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "404", "tag": "section" }
+{% endschema %}
