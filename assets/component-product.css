@@ -327,6 +327,7 @@
   padding: var(--space-2xl) var(--container-padding);
   max-width: var(--container-max);
   margin-inline: auto;
+  overflow: visible;
 }
 .hero-slide.is-active { opacity: 1; z-index: 1; }
 
@@ -368,6 +369,9 @@
   align-items: center;
   justify-content: center;
   min-height: 400px;
+  padding: var(--space-lg) 0;
+  overflow: visible;
+  z-index: 2;
 }
 
 .hero-slide__frame {
@@ -402,10 +406,13 @@
   background: linear-gradient(160deg, var(--color-bg-secondary) 0%, var(--color-white) 55%, var(--color-bg-secondary) 100%);
 }
 
-/* Layer 2 — product floats above card, can extend outside edges */
+/* Layer 2 — product breaks out of card (premium float) */
 .hero-slide__frame-float {
   position: absolute;
-  inset: -6%;
+  top: -14%;
+  right: -12%;
+  bottom: -6%;
+  left: -12%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -414,30 +421,50 @@
 }
 
 .hero-slide__product-float {
-  width: 92%;
-  max-width: 440px;
+  width: 115%;
+  max-width: 560px;
   height: auto;
-  max-height: 108%;
+  max-height: none;
   object-fit: contain;
-  object-position: center;
-  filter: drop-shadow(0 24px 48px rgba(26, 26, 26, 0.2));
-  transition: transform var(--transition);
+  object-position: center bottom;
+  transform: translateY(-5%) scale(1.08);
+  filter: drop-shadow(0 28px 56px rgba(26, 26, 26, 0.22)) drop-shadow(0 8px 20px rgba(26, 26, 26, 0.1));
+  transition: transform var(--transition), filter var(--transition);
   will-change: transform;
 }
 
 .hero-slide__product-placeholder {
-  width: 85%;
-  max-width: 400px;
+  width: 110%;
+  max-width: 520px;
+  transform: translateY(-4%) scale(1.05);
 }
 
 .hero-slide__product-placeholder svg {
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 16px 32px rgba(26, 26, 26, 0.12));
+  filter: drop-shadow(0 20px 40px rgba(26, 26, 26, 0.15));
 }
 
 .hero-slide:hover .hero-slide__product-float {
-  transform: translateY(-10px) scale(1.03);
+  transform: translateY(-8%) scale(1.12);
+  filter: drop-shadow(0 36px 64px rgba(26, 26, 26, 0.26)) drop-shadow(0 12px 24px rgba(26, 26, 26, 0.12));
+}
+
+@media (max-width: 768px) {
+  .hero-slide__frame-float {
+    top: -8%;
+    right: -6%;
+    bottom: -4%;
+    left: -6%;
+  }
+  .hero-slide__product-float {
+    width: 105%;
+    max-width: 100%;
+    transform: translateY(-3%) scale(1.04);
+  }
+  .hero-slide:hover .hero-slide__product-float {
+    transform: translateY(-5%) scale(1.06);
+  }
 }
 
 .hero-slider__nav {
