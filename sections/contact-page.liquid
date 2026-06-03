@@ -1,0 +1,129 @@
+{{ 'component-contact.css' | asset_url | stylesheet_tag }}
+
+<section class="section contact-page">
+  <div class="container">
+    <div class="contact-page__grid">
+      <div class="contact-page__info">
+        <p class="text-label">{{ section.settings.eyebrow | default: 'Contact' }}</p>
+        <h1 class="h1 contact-page__title">{{ page.title }}</h1>
+
+        {%- if page.content != blank -%}
+          <div class="rte contact-page__intro text-muted">{{ page.content }}</div>
+        {%- elsif section.settings.intro != blank -%}
+          <div class="rte contact-page__intro text-muted">{{ section.settings.intro }}</div>
+        {%- else -%}
+          <p class="contact-page__intro text-muted">{{ 'sections.contact.intro' | t }}</p>
+        {%- endif -%}
+
+        <ul class="contact-page__details">
+          {%- if section.settings.email != blank -%}
+            <li>
+              <span class="contact-page__label">{{ 'sections.contact.email' | t }}</span>
+              <a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a>
+            </li>
+          {%- endif -%}
+          {%- if section.settings.phone != blank -%}
+            <li>
+              <span class="contact-page__label">{{ 'sections.contact.phone' | t }}</span>
+              <a href="tel:{{ section.settings.phone | replace: ' ', '' }}">{{ section.settings.phone }}</a>
+            </li>
+          {%- endif -%}
+          {%- if section.settings.hours != blank -%}
+            <li>
+              <span class="contact-page__label">{{ 'sections.contact.hours' | t }}</span>
+              <span>{{ section.settings.hours }}</span>
+            </li>
+          {%- endif -%}
+          {%- if section.settings.address != blank -%}
+            <li>
+              <span class="contact-page__label">{{ 'sections.contact.address' | t }}</span>
+              <span>{{ section.settings.address }}</span>
+            </li>
+          {%- endif -%}
+        </ul>
+      </div>
+
+      <div class="contact-page__form-card">
+        <h2 class="h3">{{ 'sections.contact.form_title' | t }}</h2>
+        <p class="text-muted contact-page__form-sub">{{ 'sections.contact.form_subtitle' | t }}</p>
+
+        {%- form 'contact', id: 'ContactForm', class: 'contact-form' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="contact-form__success" role="status">
+              <p class="h4">{{ 'sections.contact.success_title' | t }}</p>
+              <p class="text-muted">{{ 'sections.contact.success_message' | t }}</p>
+            </div>
+          {%- endif -%}
+
+          {%- if form.errors -%}
+            <div class="contact-form__errors" role="alert">
+              <p>{{ 'sections.contact.error_heading' | t }}</p>
+              <ul>
+                {%- for field in form.errors -%}
+                  <li>
+                    {%- if field == 'form' -%}
+                      {{ form.errors.messages[field] }}
+                    {%- else -%}
+                      {{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+
+          <div class="contact-form__row contact-form__row--2">
+            <div class="contact-form__field">
+              <label for="ContactFormName">{{ 'sections.contact.name' | t }}</label>
+              <input type="text" id="ContactFormName" name="contact[name]" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}" autocomplete="name" required placeholder="{{ 'sections.contact.name_placeholder' | t }}">
+            </div>
+            <div class="contact-form__field">
+              <label for="ContactFormEmail">{{ 'sections.contact.email_label' | t }} <span aria-hidden="true">*</span></label>
+              <input type="email" id="ContactFormEmail" name="contact[email]" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" autocomplete="email" required placeholder="{{ 'sections.contact.email_placeholder' | t }}" spellcheck="false">
+            </div>
+          </div>
+
+          <div class="contact-form__field">
+            <label for="ContactFormPhone">{{ 'sections.contact.phone_label' | t }}</label>
+            <input type="tel" id="ContactFormPhone" name="contact[phone]" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}" autocomplete="tel" placeholder="{{ 'sections.contact.phone_placeholder' | t }}">
+          </div>
+
+          <div class="contact-form__field">
+            <label for="ContactFormSubject">{{ 'sections.contact.subject' | t }}</label>
+            <input type="text" id="ContactFormSubject" name="contact[subject]" value="{{ form.subject }}" placeholder="{{ 'sections.contact.subject_placeholder' | t }}">
+          </div>
+
+          <div class="contact-form__field">
+            <label for="ContactFormBody">{{ 'sections.contact.message' | t }} <span aria-hidden="true">*</span></label>
+            <textarea id="ContactFormBody" name="contact[body]" rows="6" required placeholder="{{ 'sections.contact.message_placeholder' | t }}">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--lg btn--full">
+            {{ 'sections.contact.submit' | t }}
+          </button>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact page",
+  "tag": "section",
+  "class": "section-contact-page",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Get in touch" },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Intro text (if page body is empty)",
+      "default": "<p>Our concierge team responds within one business day. We're here to help across Qatar and the GCC.</p>"
+    },
+    { "type": "text", "id": "email", "label": "Display email", "default": "hello@aurariyah.com" },
+    { "type": "text", "id": "phone", "label": "Phone", "default": "+974 0000 0000" },
+    { "type": "text", "id": "hours", "label": "Business hours", "default": "Sun–Thu, 9am–6pm (GST)" },
+    { "type": "textarea", "id": "address", "label": "Address", "default": "Doha, Qatar" }
+  ]
+}
+{% endschema %}

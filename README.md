@@ -50,6 +50,7 @@ If you still see **404** on the live store:
 3. **Logo** — Theme settings → upload logo and favicon
 4. **Collections** — Assign collections to Featured Collection sections on the homepage
 5. **Wishlist page** — Create a page with handle `wishlist` and assign template `page.wishlist`
+6. **Contact page** — Online Store → Pages → Contact → Theme template: **page.contact**
 6. **Hero images** — Upload floating product PNGs (transparent background) in Hero Slider blocks
 7. **Markets** — Configure GCC countries and currencies in Shopify Markets
 8. **Payments** — Enable Tabby, Tamara, Apple Pay, and local cards for Gulf checkout

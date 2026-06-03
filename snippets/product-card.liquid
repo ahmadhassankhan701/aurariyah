@@ -1,13 +1,18 @@
+{%- comment -%}
+  Premium product card — Aura Riyah
+  Usage: {% render 'product-card', card_product: product %}
+{%- endcomment -%}
 {%- liquid
   assign current_variant = card_product.selected_or_first_available_variant
   assign second_image = card_product.media[1]
   assign on_sale = false
   if card_product.compare_at_price > card_product.price
     assign on_sale = true
-    assign save_amount = card_product.compare_at_price | minus: card_product.price | money
   endif
-  assign rating_value = card_product.metafields.reviews.rating.value | default: 4.5
+  assign rating_value = card_product.metafields.reviews.rating.value | default: 4.5 | plus: 0
   assign rating_count = card_product.metafields.reviews.rating_count | default: 0
+  assign placeholder_idx = card_product.id | modulo: 4 | plus: 1
+  assign placeholder_name = 'product-apparel-' | append: placeholder_idx
 -%}
 
 <article class="product-card" data-product-id="{{ card_product.id }}">
@@ -25,22 +30,20 @@
           {{ second_image | image_url: width: 600 | image_tag:
             class: 'product-card__img product-card__img--secondary',
             loading: 'lazy',
-            alt: second_image.alt
+            alt: second_image.alt | default: card_product.title
           }}
         {%- endif -%}
       {%- else -%}
-        <div class="product-card__img skeleton" style="aspect-ratio:1"></div>
+        <div class="product-card__placeholder-wrap">
+          {{ placeholder_name | placeholder_svg_tag: 'product-card__img product-card__placeholder-svg' }}
+        </div>
       {%- endif -%}
     </a>
 
     <div class="product-card__badges">
       {%- if on_sale -%}
         <span class="badge badge--sale">
-          {%- if card_product.compare_at_price > card_product.price -%}
-            -{{ card_product.compare_at_price | minus: card_product.price | times: 100 | divided_by: card_product.compare_at_price }}%
-          {%- else -%}
-            Sale
-          {%- endif -%}
+          -{{ card_product.compare_at_price | minus: card_product.price | times: 100 | divided_by: card_product.compare_at_price }}%
         </span>
       {%- endif -%}
       {%- unless card_product.available -%}
@@ -77,7 +80,7 @@
       <a href="{{ card_product.url }}">{{ card_product.title }}</a>
     </h3>
 
-    <div class="product-card__rating rating">
+    <div class="product-card__rating rating" aria-label="{{ rating_value }} out of 5">
       {%- for i in (1..5) -%}
         <span class="rating__star" aria-hidden="true">{% if i <= rating_value %}{% render 'icon', icon: 'star', size: 14 %}{% endif %}</span>
       {%- endfor -%}
@@ -90,8 +93,7 @@
     {%- if color_option and color_option.values.size > 0 -%}
       <div class="product-card__swatches" role="list">
         {%- for value in color_option.values limit: 5 -%}
-          {%- assign swatch_variant = card_product.variants | where: 'option1', value | first -%}
-          <span class="product-card__swatch{% if forloop.first %} is-active{% endif %}" role="listitem" title="{{ value }}" style="background-color: {{ value | handle | replace: '-', '' }};"></span>
+          <span class="product-card__swatch{% if forloop.first %} is-active{% endif %}" role="listitem" title="{{ value | escape }}" style="background-color: {{ value | handle }};"></span>
         {%- endfor -%}
       </div>
     {%- endif -%}

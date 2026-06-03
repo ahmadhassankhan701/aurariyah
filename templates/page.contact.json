@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "contact-page",
+      "settings": {
+        "eyebrow": "Get in touch",
+        "email": "hello@aurariyah.com",
+        "phone": "+974 0000 0000",
+        "hours": "Sun–Thu, 9am–6pm (GST)",
+        "address": "Doha, Qatar"
+      }
+    }
+  },
+  "order": ["main"]
+}
