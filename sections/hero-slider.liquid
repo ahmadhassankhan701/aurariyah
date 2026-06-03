@@ -29,7 +29,18 @@
               alt: block.settings.heading
             }}
           {%- elsif block.settings.background_image != blank -%}
-            {{ block.settings.background_image | image_url: width: 800 | image_tag: class: 'hero-slide__product-float', loading: 'lazy' }}
+            {{ block.settings.background_image | image_url: width: 800 | image_tag: class: 'hero-slide__product-float', loading: 'lazy', alt: block.settings.heading }}
+          {%- else -%}
+            {%- liquid
+              assign hero_idx = forloop.index | modulo: 4
+              if hero_idx == 0
+                assign hero_idx = 4
+              endif
+              assign hero_placeholder = 'product-apparel-' | append: hero_idx
+            -%}
+            <div class="hero-slide__placeholder">
+              {% render 'placeholder-image', name: hero_placeholder, class: 'placeholder-image--hero' %}
+            </div>
           {%- endif -%}
         </div>
       </div>

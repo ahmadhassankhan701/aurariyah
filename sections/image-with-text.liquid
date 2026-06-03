@@ -4,6 +4,8 @@
       <div style="border-radius:var(--radius-xl);overflow:hidden;background:var(--color-bg-secondary)">
         {%- if section.settings.image != blank -%}
           {{ section.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width:768px) 50vw, 100vw' }}
+        {%- else -%}
+          {% render 'placeholder-image', name: 'lifestyle-1', class: 'placeholder-image--split' %}
         {%- endif -%}
       </div>
       <div>

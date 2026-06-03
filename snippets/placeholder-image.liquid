@@ -1,0 +1,7 @@
+{%- comment -%}
+  Shopify SVG placeholder. Usage: {% render 'placeholder-image', name: 'lifestyle-2' %}
+{%- endcomment -%}
+{%- assign placeholder = name | default: 'image' -%}
+<div class="placeholder-image{% if class != blank %} {{ class }}{% endif %}">
+  {{ placeholder | placeholder_svg_tag: 'placeholder-image__svg' }}
+</div>

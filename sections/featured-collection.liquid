@@ -19,14 +19,9 @@
           {% render 'product-card', card_product: product %}
         {%- endfor -%}
       {%- else -%}
-        {%- for i in (1..4) -%}
-          <div class="product-card">
-            <div class="product-card__media skeleton" style="aspect-ratio:1"></div>
-            <div class="product-card__body">
-              <div class="skeleton" style="height:1rem;width:60%;margin-bottom:0.5rem"></div>
-              <div class="skeleton" style="height:1.25rem;width:80%"></div>
-            </div>
-          </div>
+        {%- assign placeholder_count = section.settings.products_to_show | default: 4 -%}
+        {%- for i in (1..placeholder_count) -%}
+          {% render 'product-card-placeholder', index: i %}
         {%- endfor -%}
       {%- endif -%}
     </div>

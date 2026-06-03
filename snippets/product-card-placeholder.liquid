@@ -1,0 +1,24 @@
+{%- comment -%}
+  Placeholder product card until a collection is assigned.
+  Usage: {% render 'product-card-placeholder', index: 1 %}
+{%- endcomment -%}
+{%- liquid
+  assign idx = index | default: 1
+  assign idx_mod = idx | minus: 1 | modulo: 4 | plus: 1
+  assign placeholder_name = 'product-apparel-' | append: idx_mod
+-%}
+
+<article class="product-card product-card--placeholder" aria-hidden="true">
+  <div class="product-card__media">
+    <div class="product-card__placeholder-wrap">
+      {{ placeholder_name | placeholder_svg_tag: 'product-card__placeholder-svg' }}
+    </div>
+  </div>
+  <div class="product-card__body">
+    <span class="product-card__vendor">Aura Riyah</span>
+    <h3 class="product-card__title">Premium accessory {{ idx }}</h3>
+    <div class="product-card__price">
+      <span class="product-card__price-current">{{ 29900 | money }}</span>
+    </div>
+  </div>
+</article>
