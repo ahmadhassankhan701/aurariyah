@@ -65,6 +65,20 @@
       },
       "category-tiles": {
         "type": "category-tiles",
+        "blocks": {
+          "tile_HA9QNa": {
+            "type": "tile",
+            "settings": {
+              "eyebrow": "Audio",
+              "title": "Headphones",
+              "link": "shopify://collections/headphones",
+              "image": "shopify://shop_images/headphones.png"
+            }
+          }
+        },
+        "block_order": [
+          "tile_HA9QNa"
+        ],
         "settings": {
           "title": "Shop by Category"
         }
